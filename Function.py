@@ -67,5 +67,5 @@ def AllConection(playlist_tracks,grafo):
         for j in range(len(playlist_tracks)-1):
             if (playlist_tracks[i].name != playlist_tracks[j].name):
                 peso=value(playlist_tracks[i],playlist_tracks[j])
-                if(peso<=5):
+                if(peso<=15):
                     grafo.add_edge(playlist_tracks[i].name,playlist_tracks[j].name,weight=peso)
