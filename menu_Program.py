@@ -1,13 +1,31 @@
-def menu():
-    print("##################################################################################################")
-    print("####################################  B I E N V E N I D O  ######################################")
-    print("1.Escribir una cancion y filtrar todas las canciones de ese artista existentes del playlist")
-    print("2.Playlist 20 Recomendaciones")
-    option=input("¿Que quieres hacer?:")
-    nameSong=input("Escribe el titulo de la cancion a elegir:")
-    return option,nameSong
+import os
+from Function import *
 
+def FirstMenu(playlist_tracks):
+    while(True):
+        print("##################################################################################################")
+        print("####################################  W E L C O M E   ############################################")
+        printSongs(playlist_tracks)
+        print("-------------------------------Select Your Song (Only Name)---------------------------------------")
+        try:
+            song = input("")
+            return (checkSong(song, playlist_tracks))
+        except:
+            print("Value entered incorrectly")
+            os.system('cls')
+            return False
 
-
-
+def SecondMenu(songSelected):
+    while(True):
+        print("##################################################################################################")
+        print(f"#Song Selected-----> {songSelected.name}")
+        print("###OPTIONS###")
+        print("1.Filter By Group")
+        print("2.Filter By Seems")
+        print("--------------------------------------Select Your Option ------------------------------------------")
+        try:
+            option=int(input(""))
+            return option
+        except:
+            print("Option Incorrectly")
 
