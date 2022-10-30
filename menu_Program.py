@@ -18,7 +18,7 @@ def FirstMenu(playlist_tracks):
 def SecondMenu(songSelected):
     while(True):
         print("##################################################################################################")
-        print(f"#Song Selected-----> {songSelected.name}")
+        print(f"#Song Selected-----> {songSelected.name}- {songSelected.artist}")
         print("###OPTIONS###")
         print("1.Filter By Group")
         print("2.Filter By Seems")
