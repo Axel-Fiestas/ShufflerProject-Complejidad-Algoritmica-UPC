@@ -1,20 +1,40 @@
-diccionario={1:"Shibayan Records",2:"Shibayan Records",3:"Shibayan Records",4:"Foals"}
+from tkinter import *
+from tkinter import ttk
+root = Tk()
+root.title('Learn To Code at Codemy.com')
 
-#Añadir elemento
-diccionario[5]="The Police"
+alto=600
+ancho=625
+anchoalto="625x600"
+root.geometry(anchoalto)
+# Create A Main Frame
+main_frame = Frame(root,width=ancho,height=alto)
+main_frame.place(x=0,y=0)
+# Create A Canvas
+my_canvas = Canvas(main_frame, width=ancho, height=alto)
+my_canvas.place(x=0,y=0)
+# Add A Scrollbar To The Canvas
+my_scrollbar = ttk.Scrollbar(main_frame, orient=VERTICAL, command=my_canvas.yview)
+my_scrollbar.place(x=305,y=0,height=alto)
+# Configure The Canvas
+my_canvas.configure(yscrollcommand=my_scrollbar.set)
+my_canvas.bind('<Configure>', lambda e: my_canvas.configure(scrollregion = my_canvas.bbox("all")))
+def _on_mouse_wheel(event):
+    my_canvas.yview_scroll(-1 * int((event.delta / 120)), "units")
+my_canvas.bind_all("<MouseWheel>", _on_mouse_wheel)
+# Create ANOTHER Frame INSIDE the Canvas
+second_frame = Frame(my_canvas,width=ancho,height=alto)
+second_frame.place(x=0,y=0)
+# Add that New frame To a Window In The Canvas
+my_canvas.create_window((0,0), window=second_frame, anchor="nw")
 
-print(diccionario)
+posY=0
+altura = 0
 
-for clave in diccionario:
-    valor=diccionario[clave]
+for thing in range(100):
+    posY = posY + 30
+    altura = altura + 30
+    Button(second_frame, text=f'Button {thing} Yo!').place(x=50,y=posY)
+    second_frame.configure(height=altura) #Changing the height of the second_frame each time a button is added
 
-    print(valor)
-
-l = [['apple','banana','kiwi'],['chair','table','spoon']]
-lista_id=[["Men At Work","Down Under"],["Men At Work","Catch A Star"],["Shibayan Records","SUPER MOON"]]
-def findItem(theList, item):
-   return [(ind, theList[ind].index(item)) for ind in range(len(theList)) if item in theList[ind]]
-
-print(findItem(l, 'apple')) # [(0, 0)]
-print(findItem(l, 'spoon')) # [(1, 2)]
-print(findItem(lista_id,"Men At Work"))
+root.mainloop()

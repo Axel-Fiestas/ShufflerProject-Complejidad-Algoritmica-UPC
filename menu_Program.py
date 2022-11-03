@@ -22,6 +22,7 @@ def SecondMenu(songSelected):
         print("###OPTIONS###")
         print("1.Filter By Group")
         print("2.Filter By Seems")
+        print("3.Filter By Ranking")
         print("--------------------------------------Select Your Option ------------------------------------------")
         try:
             option=int(input(""))

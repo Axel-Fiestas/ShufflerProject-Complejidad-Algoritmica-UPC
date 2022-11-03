@@ -4,8 +4,9 @@ def getTempoValue(BPM):
     # 130+ Fast
     BPM=int(BPM)
     if (0 <= BPM <= 79): return 1
-    if (80 <= BPM <= 129): return 2
-    if (BPM >= 130): return 3
+    if (80 <= BPM <= 100): return 2
+    if (101 <= BPM <= 129): return 3
+    if (BPM >= 130): return 4
 
 def getPopularityValue(popularity):
     # 0-20 -> 1

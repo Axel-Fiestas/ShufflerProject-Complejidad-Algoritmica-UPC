@@ -59,7 +59,7 @@ def getPointsPopularity(number):
 
 G=nx.DiGraph()
 
-with open("../songs_list_1.csv", "r") as file:
+with open("songs_list_1.csv", "r") as file:
     csvreader=csv.reader(file)
     for row in csvreader:
         if(len(row)!=0):

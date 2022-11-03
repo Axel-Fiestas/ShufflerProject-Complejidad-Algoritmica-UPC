@@ -15,7 +15,7 @@ anyValue=song
 option=SecondMenu(song) #Elegimos la opcion
 grafo=nx.Graph() #Creamos el grafo
 if(option==1):
-    generateNodes(grafo, song, playlist_tracks,"FilterByArtist")  # Generamos los nodos de canciones
+    generateNodesCaseByArtist(grafo, song, playlist_tracks)  # Generamos los nodos de canciones
     #Se emplearán los Conjuntos disjuntos , para este caso
     listaId = [] #Lista de Ids
     diccionario = {} #Diccionario que tendra el Id de cada diccionario
@@ -44,9 +44,12 @@ if(option==1):
     nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
     plt.show()
 elif(option==2):
-    generateNodes(grafo, song, playlist_tracks, "FilterBySeems")
+    #Añado el nodo de la cancion
+    grafo.add_node(song.name)
+    numberOfPlaylist=int(input("Number Of Songs in the playlist: "))
+    generateNodesCaseBySeems(grafo, song, playlist_tracks,numberOfPlaylist)
     #Realizamos y mostramos el grafo de las canciones con su respectiva similitud
-    AllConection(playlist_tracks, grafo,song)
+    #AllConection(playlist_tracks, grafo,song,limitDistance)
     elarge = [(u, v) for (u, v, d) in grafo.edges(data=True) if d["weight"] > 5]
     esmall = [(u, v) for (u, v, d) in grafo.edges(data=True) if d["weight"] <= 5]
     pos = nx.spring_layout(grafo, seed=4)
@@ -62,7 +65,27 @@ elif(option==2):
     ax.margins(0.08)
     plt.axis("off")
     plt.tight_layout()
+
+
+    songs_of_seems = list(grafo.adj[song.name])
+    print(f"Songs Of Seems that ''{song.name}'' in the playlist are: ")
+    for x in songs_of_seems:
+       print(x)
+
     plt.show()
+
+elif(option==3):
+    generateNodesCaseByPopularity(grafo, song, playlist_tracks)
+    conectionByPopularity(playlist_tracks,grafo,song)
+
+    songs_of_group=list(grafo.adj[song.name])
+    print(f"Songs Of same popularity in the playlist are: ")
+    for x in songs_of_group:
+       print(x)
+
+    nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
+    plt.show()
+
 #except:
 #    #En caso pasa algo malo
 #    print("END")
