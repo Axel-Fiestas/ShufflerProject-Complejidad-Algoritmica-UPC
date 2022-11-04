@@ -54,16 +54,27 @@ def pressButonCheck(song):
         return False
 
 
-def showListOfSongs(root, listOfSongs):
+def showListOfSongs(root,listOfSongs):
     scrollbar = Scrollbar(root, orient="vertical")
-    test = Listbox(root, width=20, height=5, font=("Helvetica", 14))
+
+    SelectuserLabel = Label(root, text="Copy Name of Your Song").grid(row=0, column=0)
+    test = Listbox(root, width=40, height=35, font=("Helvetica", 10))
+    for song in listOfSongs:
+        test.insert(END,song.name)
+    test.grid(row=1, column=0)
+    scrollbar.config(command=test.yview)
+    scrollbar.grid(row=0, column=2, sticky='ns')
+
+def showListOfSelectedSongs(root, listOfSongs):
+    scrollbar = Scrollbar(root, orient="vertical")
+    test = Listbox(root, width=20, height=5, font=("Helvetica", 10))
 
     for x in listOfSongs:
         test.insert(END, x)
 
-    test.grid(row=5, column=0)
+    test.grid(row=6, column=0)
     scrollbar.config(command=test.yview)
-    scrollbar.grid(row=5, column=1, sticky='ns')
+    scrollbar.grid(row=7, column=1, sticky='ns')
 
 
 def pressButtonArtist(root, songName):
@@ -96,11 +107,10 @@ def pressButtonArtist(root, songName):
             if (valor == listaId[i] and valor == song.artist):
                 grafo.add_edge(diccionario_objetos[i].name, listaId[i])
 
-        # AQUI SE IMPRE
+        # AQUI SE IMPRIME
         songs_of_group = list(grafo.adj[song.artist])
         # print(f"Songs Of artist ''{song.artist}'' in the playlist are: ")
-        SelectuserLabel = Label(root, text="Songs in the playlist of equal Artist").grid(row=4, column=0)
-        showListOfSongs(root, songs_of_group)
+        showListOfSelectedSongs(root, songs_of_group)
 
         nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
         plt.show()
@@ -135,8 +145,7 @@ def pressButtonSeems(root, songName):
         plt.tight_layout()
 
         songs_of_seems = list(grafo.adj[song.name])
-        SelectuserLabel = Label(root, text="Playlist of soongs seems").grid(row=4, column=0)
-        showListOfSongs(root, songs_of_seems)
+        showListOfSelectedSongs(root, songs_of_seems)
 
         plt.show()
 
@@ -150,8 +159,7 @@ def pressButtonPopularity(root, songName):
         conectionByPopularity(playlist_tracks, grafo, song)
 
         songs_of_group = list(grafo.adj[song.name])
-        SelectuserLabel = Label(root, text="Songs in the equal range by Popularity").grid(row=4, column=0)
-        showListOfSongs(root, songs_of_group)
+        showListOfSelectedSongs(root, songs_of_group)
 
         nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
         plt.show()

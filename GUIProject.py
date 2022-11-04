@@ -22,23 +22,30 @@ from FunctionsGUI import *
 root= tkinter.Tk()
 root.geometry("700x700")
 root.title("Recomend Playlist Project")
-
-titleApp=tkinter.Label(root,text="Recomend Playlist Project").grid(row=0,column=0)
-secondaryTitle=tkinter.Label(root,text="Write a song of this playlist!",bg="yellow").grid(row=1,column=0)
-
 playlist_tracks = getSongs()
 
-e=Entry(root,width=50,bg="green",fg="white",borderwidth=3)
+
+#SONGS FRAME
+songsFrame=LabelFrame(root,text="Songs os Playlist")
+songsFrame.grid(row=0,column=0)
+showListOfSongs(songsFrame,playlist_tracks)
+
+#OPTIONS FRAME
+
+optionsFrame=LabelFrame(root,text="Options")
+optionsFrame.grid(row=0,column=1)
+
+titleApp=tkinter.Label(optionsFrame,text="Recomend Playlist Project").grid(row=0,column=0)
+secondaryTitle=tkinter.Label(optionsFrame,text="Write a song of this playlist!",bg="yellow").grid(row=1,column=0)
+
+e=Entry(optionsFrame,width=50,bg="green",fg="white",borderwidth=3)
 e.grid(row=2,column=0)
 e.get()
 
 
-optionsFrame=LabelFrame(root,text="Options")
-optionsFrame.grid(row=3,column=0)
-
-buttonArtist=Button(optionsFrame,text="Filter By Group",command=lambda:pressButtonArtist(root,e.get())).pack()
-buttonSeems=Button(optionsFrame,text="Filter By Seems", command=lambda :pressButtonSeems(root,e.get())).pack()
-buttonPopularity=Button(optionsFrame,text="Filter By Popularity",command=lambda: pressButtonPopularity(root,e.get())).pack()
+buttonArtist=Button(optionsFrame,text="Filter By Group",command=lambda:pressButtonArtist(optionsFrame,e.get())).grid(row=3,column=0)
+buttonSeems=Button(optionsFrame,text="Filter By Seems", command=lambda :pressButtonSeems(optionsFrame,e.get())).grid(row=4,column=0)
+buttonPopularity=Button(optionsFrame,text="Filter By Popularity",command=lambda: pressButtonPopularity(optionsFrame,e.get())).grid(row=5,column=0)
 
 
 
