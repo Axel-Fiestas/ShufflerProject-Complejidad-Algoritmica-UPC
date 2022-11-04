@@ -7,6 +7,9 @@ from menu_Program import *
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import showinfo
 
+
+
+
 def showSongs(root,img_boton,printNameSong):
 
     botons=[]
@@ -38,7 +41,19 @@ def extracSong(song,playlist_tracks):
         if song==track.name:
             return track
 
-def pressButtonArtist(songName):
+
+def showListOfSongs(root,listOfSongs):
+    scrollbar = Scrollbar(root, orient="vertical")
+    test = Listbox(root, width=20, height=5, font=("Helvetica", 14))
+
+    for x in listOfSongs:
+        test.insert(END, x)
+
+    test.grid(row=5, column=0)
+    scrollbar.config(command=test.yview)
+    scrollbar.grid(row=5, column=1, sticky='ns')
+
+def pressButtonArtist(root,songName):
 
     grafo = nx.Graph()  # Creamos el grafo
 
@@ -67,14 +82,18 @@ def pressButtonArtist(songName):
         valor = diccionario_objetos[i].artist
         if (valor == listaId[i] and valor == song.artist):
             grafo.add_edge(diccionario_objetos[i].name, listaId[i])
+
+    #AQUI SE IMPRE
     songs_of_group = list(grafo.adj[song.artist])
-    print(f"Songs Of artist ''{song.artist}'' in the playlist are: ")
-    for x in songs_of_group:
-        print(x)
+    #print(f"Songs Of artist ''{song.artist}'' in the playlist are: ")
+    SelectuserLabel = Label(root, text="Songs in the playlist of equal Artist").grid(row=4, column=0)
+    showListOfSongs(root,songs_of_group)
+
+
     nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
     plt.show()
 
-def pressButtonSeems(songName):
+def pressButtonSeems(root,songName):
 
     grafo = nx.Graph()  # Creamos el grafo
     song=extracSong(songName,playlist_tracks)# Extraemos la cancion
@@ -102,15 +121,13 @@ def pressButtonSeems(songName):
     plt.axis("off")
     plt.tight_layout()
 
-
     songs_of_seems = list(grafo.adj[song.name])
-    print(f"Songs Of Seems that ''{song.name}'' in the playlist are: ")
-    for x in songs_of_seems:
-       print(x)
+    SelectuserLabel = Label(root, text="Playlist of soongs seems").grid(row=4, column=0)
+    showListOfSongs(root,songs_of_seems)
 
     plt.show()
 
-def pressButtonPopularity(songName):
+def pressButtonPopularity(root,songName):
 
     grafo = nx.Graph()  # Creamos el grafo
     song=extracSong(songName,playlist_tracks)# Extraemos la cancion
@@ -119,9 +136,8 @@ def pressButtonPopularity(songName):
     conectionByPopularity(playlist_tracks,grafo,song)
 
     songs_of_group=list(grafo.adj[song.name])
-    print(f"Songs Of same popularity in the playlist are: ")
-    for x in songs_of_group:
-       print(x)
+    SelectuserLabel = Label(root, text="Songs in the equal range by Popularity").grid(row=4, column=0)
+    showListOfSongs(root,songs_of_group)
 
     nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
     plt.show()

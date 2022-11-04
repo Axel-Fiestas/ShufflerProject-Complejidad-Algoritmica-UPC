@@ -19,7 +19,6 @@ from FunctionsGUI import *
 #img_boton_check=ImageTk.PhotoImage(img_check)#
 
 #PROGRAM--------------------------------------------------------------------
-
 root= tkinter.Tk()
 root.geometry("700x700")
 root.title("Recomend Playlist Project")
@@ -39,14 +38,12 @@ e.grid(row=2,column=0)
 e.get()
 
 
-buttonArtist=Button(root,text="Filter By Group",command=lambda:pressButtonArtist(e.get())).grid(row=3,column=0)
-buttonSeems=Button(root,text="Filter By Seems", command=lambda :pressButtonSeems(e.get())).grid(row=3,column=1)
-buttonPopularity=Button(root,text="Filter By Popularity",command=lambda: pressButtonPopularity(e.get())).grid(row=3,column=2)
+buttonArtist=Button(root,text="Filter By Group",command=lambda:pressButtonArtist(root,e.get())).grid(row=3,column=0)
+buttonSeems=Button(root,text="Filter By Seems", command=lambda :pressButtonSeems(root,e.get())).grid(row=3,column=1)
+buttonPopularity=Button(root,text="Filter By Popularity",command=lambda: pressButtonPopularity(root,e.get())).grid(row=3,column=2)
 
 
 #buttonExample=Button(root,text="ButtonExampleCheck",command=lambda: pressButon(e.get())).grid(row=3,column=0)
-
-
 
 def pressButon(song):
     labelWarning = tkinter.Label(root, text="Something was wrong", bg="red")
