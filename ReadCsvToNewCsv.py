@@ -9,7 +9,7 @@ from Classes.classes import *
 playlist_tracks=[]
 
 def getSongs():
-    with open("DataSet/liked2.csv", encoding='utf-8') as csv_file:
+    with open("DataSet/Dataset.csv", encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         for row in csv_reader:
@@ -19,9 +19,11 @@ def getSongs():
                 line_count += 1
             else:
                 #print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
-                s=Song(row[1],row[3],row[15],row[18].split(","),round(int(float(row[29]))))
+                #name, artist,popularity,tempo,genres
+                s=Song(row[0],row[1],row[3],row[4],list(row[5].split(",")))
                 playlist_tracks.append(s)
                 line_count += 1
         print(f'Processed {line_count} lines.')
 
     return playlist_tracks
+

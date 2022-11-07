@@ -1,12 +1,13 @@
 from tkinter import *
 from ReadCsvToNewCsv import *
+from Functions.Function import *
 from PIL import Image, ImageTk
 import networkx as nx
 import matplotlib.pyplot as plt
-from menu_Program import *
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
+
 
 
 def showSongs(root, img_boton, printNameSong):

@@ -1,4 +1,6 @@
 import csv
+import re
+
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import json
@@ -19,48 +21,48 @@ def get_playlist_tracks():
     while sp_playlist['next']:
         sp_playlist = sp.next(sp_playlist)
         tracks.extend(sp_playlist['items'])
+
     return tracks
 
 def get_list_songs(tracks_ids):
     list_listas=[]
 
-    i=0
-
     for song in tracks_ids:
 
-        if(i<1):
-            name_track = song["track"]["name"]
-            artist_track = song["track"]["artists"][0]["name"]
-            uri_track = song["track"]["uri"]
-
-            features = sp.audio_features(uri_track)[0]
-
-            danceability = round(features["danceability"]*100)
-            popularity=song["track"]["popularity"]
-
-            lista = [name_track, artist_track, uri_track,popularity,danceability]
-
-            list_listas.append(lista)
-
-            print(json.dumps(song,indent=2))
-
-            i+=1
-        else:
-            break
-
+        name_track = song["track"]["name"]
+        artist_track = song["track"]["artists"][0]["name"]
+        uri_track = song["track"]["uri"]
+        #PARA SABER EL GENERO QUE EL ARTISTA TOCA
+        result=sp.search(artist_track)
+        track=result['tracks']['items'][0]
+        artist = sp.artist(track["artists"][0]["external_urls"]["spotify"])
+        genre=str(artist["genres"])
+        genre=re.sub("\[|\'|\]","",genre)
+#https://open.spotify.com/playlist/3rmuoOAoR1d57FkIYIr2VP?si=700063bb53f549fd
+        #AQUI TERMINA
+        #OBTENCION DE LOS DATOS DEL TEMPO Y POPULARIDAD
+        features = sp.audio_features(uri_track)[0]
+        tempo=round(features["tempo"])
+        popularity=song["track"]["popularity"]
+        lista = [name_track, artist_track, uri_track,popularity,tempo,genre]
+        list_listas.append(lista)
+        #print(json.dumps(song,indent=2))
     return list_listas
 
 
-track_list  = get_playlist_tracks()#
+track_list  = get_playlist_tracks()
 list_songs  = get_list_songs(track_list)
-#headers=["name_track","artist_track","uri_track","popularity","danceability"]
+
+headers=["name_track","artist_track","uri_track","popularity","tempo","genres"]
 
 
 #print(len(list_songs))
 #print(list_songs)
 
-#Generación del dataset usando la librería csv
-#with open("songs_list_1.csv","w",encoding="utf-8") as file:
-#    song=csv.writer(file)
-#    song.writerow(headers)
-#    song.writerows(list_songs)
+with open('Dataset.csv','w', newline='',encoding="utf-8") as csvfile:
+    #creating  a csv writer object
+    csvwriter = csv.writer(csvfile)
+    #writing the fields
+    csvwriter.writerow(headers)
+    # writing the data rows
+    csvwriter.writerows(list_songs)
