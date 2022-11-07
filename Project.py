@@ -89,35 +89,3 @@ elif(option==3):
 #except:
 #    #En caso pasa algo malo
 #    print("END")
-
-
-
-
-############################################### OPCIONES VERSION ANTERIOR (DE MOMENTO COMENTADO)
-
-
-#if (option == 1):
-#   # Separar por artista a hacer una conexión toda xd
-#   separateByArtist(playlist_tracks, grafo)
-#   nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
-#   plt.show()
-#elif (option == 2):
-#   # Realizamos y mostramos el grafo de las canciones con su respectiva similitud
-#   AllConection(playlist_tracks, grafo)
-#   elarge = [(u, v) for (u, v, d) in grafo.edges(data=True) if d["weight"] > 5]
-#   esmall = [(u, v) for (u, v, d) in grafo.edges(data=True) if d["weight"] <= 5]
-#   pos = nx.spring_layout(grafo, seed=4)
-#   nx.draw_networkx_nodes(grafo, pos, node_size=700)
-#   nx.draw_networkx_edges(grafo, pos, edgelist=elarge, width=3)
-#   nx.draw_networkx_edges(
-#       grafo, pos, edgelist=esmall, width=3, alpha=0.5, edge_color="b", style="dashed"
-#   )
-#   nx.draw_networkx_labels(grafo, pos, font_size=20, font_family="sans-serif")
-#   edge_labels = nx.get_edge_attributes(grafo, "weight")
-#   nx.draw_networkx_edge_labels(grafo, pos, edge_labels)
-#   ax = plt.gca()
-#   ax.margins(0.08)
-#   plt.axis("off")
-#   plt.tight_layout()
-#   plt.show()
-#
