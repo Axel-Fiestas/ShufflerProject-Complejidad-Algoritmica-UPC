@@ -1,12 +1,6 @@
 #LIBRARIES
 import tkinter
-from tkinter import *
-from ReadCsvToNewCsv import *
-from  Function import *
-from PIL import Image, ImageTk
-from menu_Program import *
-from FunctionsGUI import *
-
+from Functions.FunctionsGUI import *
 
 #logoChooseImage=Image.open('images/choose_logo.png')
 #checkImage=Image.open('images/check_icon.png')

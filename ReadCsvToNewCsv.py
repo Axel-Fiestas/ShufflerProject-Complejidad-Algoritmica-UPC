@@ -1,5 +1,5 @@
 import csv
-from classes import *
+from Classes.classes import *
 
 #Track Name = row[1]
 #Artist Name= row[3]

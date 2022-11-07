@@ -1,4 +1,4 @@
-from ConvertFunctions import *
+from Functions.ConvertFunctions import *
 
 def equalArtist(songSelected,songCompare):
     if(songSelected.artist==songCompare.artist):
@@ -45,6 +45,12 @@ def generateNodesCaseByPopularity(grafo,songSelected,playlist_tracks):
         if(getPopularityValue(track.popularity)==getPopularityValue(songSelected.popularity)):
             grafo.add_node(track.name)
 
+def conectionByPopularity(playlist_tracks,grafo,songSelected):
+    for i in range(len(playlist_tracks)):
+        if(songSelected.name!=playlist_tracks[i].name):
+            if(getPopularityValue(songSelected.popularity)==getPopularityValue(playlist_tracks[i].popularity)):
+                grafo.add_edge(songSelected.name,playlist_tracks[i].name)
+
 def value(song1,song2):
 
     value1=1
@@ -59,6 +65,7 @@ def value(song1,song2):
 
     bS1=getTempoValue(song1.tempo)
     bS2=getTempoValue(song2.tempo)
+
     final2=bS1-bS2
     final_final2=max(final2,-final2)
 
@@ -68,27 +75,3 @@ def value(song1,song2):
 
 
 
-def AllConection(playlist_tracks,grafo,songSelected,limitDistance):
-    #for i in range(len(playlist_tracks)):
-    #    for j in range(len(playlist_tracks)-1):
-    #        if (playlist_tracks[i].name != playlist_tracks[j].name):
-    #            peso=value(playlist_tracks[i],playlist_tracks[j])
-    #            if(peso<=3):
-    #                grafo.add_edge(playlist_tracks[i].name,playlist_tracks[j].name,weight=peso)
-    #            else:
-    #                grafo.remove_node(playlist_tracks[j].name)
-    for i in range(len(playlist_tracks)):
-        if(songSelected.name!=playlist_tracks[i].name):
-            peso=value(songSelected,playlist_tracks[i])
-            if(peso<=limitDistance):
-                grafo.add_edge(songSelected.name, playlist_tracks[i].name, weight=peso)
-                #grafo.remove_node(1)
-
-    print(grafo)
-    print(list(grafo.nodes))
-
-def conectionByPopularity(playlist_tracks,grafo,songSelected):
-    for i in range(len(playlist_tracks)):
-        if(songSelected.name!=playlist_tracks[i].name):
-            if(getPopularityValue(songSelected.popularity)==getPopularityValue(playlist_tracks[i].popularity)):
-                grafo.add_edge(songSelected.name,playlist_tracks[i].name)
