@@ -3,20 +3,13 @@ import tkinter
 from Functions.FunctionsGUI import *
 from ReadCsvToNewCsv import *
 
-#logoChooseImage=Image.open('images/choose_logo.png')
-#checkImage=Image.open('images/check_icon.png')
-
-#img_logo_choose=logoChooseImage.resize((30, 30))
-#img_check=checkImage.resize((30,30))
-
-#img_boton=ImageTk.PhotoImage(img_logo_choose)
-#img_boton_check=ImageTk.PhotoImage(img_check)#
-
 #PROGRAM--------------------------------------------------------------------
 root= tkinter.Tk()
 root.geometry("700x700")
-root.title("Recomend Playlist Project")
+root.title("Shuffler")
 playlist_tracks = getSongs()
+p1 = PhotoImage(file='images/music_logo.png')
+root.iconphoto(False, p1)
 
 
 #SONGS FRAME

@@ -84,12 +84,12 @@ def ButtonArtist(root, songName):
     generateNodesCaseByArtist(grafo, song, playlist_tracks)  # Generamos los nodos de canciones
     # Se emplearán los Conjuntos disjuntos , para este caso
     listaId = []  # Lista de Ids
-    diccionario = {}  # Diccionario que tendra el Id de cada diccionario
+    #diccionario = {}  # Diccionario que tendra el Id de cada diccionario
     diccionario_objetos = {}  # Diccionario que tendra el objeto en si para poder acceder a sus variables
     # Definimos la lista de ids (que seran los artistas) y lo demas que servirá como conexión para verificar si una canción
     # comparte conexión (comparten mismo artista) con otra
     for i in range(len(playlist_tracks)):
-        diccionario[playlist_tracks[i].name] = i  # Paranoid : 1
+        #diccionario[playlist_tracks[i].name] = i  # Paranoid : 1
         diccionario_objetos[i] = playlist_tracks[i]  # ObjetoCancion(Paranoid) : 1
         listaId.append(playlist_tracks[i].artist)  # lista[1] = Black Sabbath
     grafo.add_node(

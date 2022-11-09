@@ -32,7 +32,7 @@ def get_list_songs(tracks_ids):
         name_track = song["track"]["name"]
         artist_track = song["track"]["artists"][0]["name"]
         uri_track = song["track"]["uri"]
-        #PARA SABER EL GENERO QUE EL ARTISTA TOCA
+        #PARA SABER EL GENERO
         result=sp.search(artist_track)
         track=result['tracks']['items'][0]
         artist = sp.artist(track["artists"][0]["external_urls"]["spotify"])

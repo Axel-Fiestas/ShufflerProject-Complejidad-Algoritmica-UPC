@@ -53,15 +53,15 @@ def conectionByPopularity(playlist_tracks,grafo,songSelected):
 
 def value(song1,song2):
 
-    value1=1
+    valueEdge=1
 
     for genero in song1.genres:
 
-        if(value1<=10):
+        if(valueEdge<=10):
             if(genero in song2.genres):
-                value1+=0
+                valueEdge+=0
             else:
-                value1+=1
+                valueEdge+=1
 
     bS1=getTempoValue(song1.tempo)
     bS2=getTempoValue(song2.tempo)
@@ -69,9 +69,9 @@ def value(song1,song2):
     final2=bS1-bS2
     final_final2=max(final2,-final2)
 
-    value1 += final_final2
+    valueEdge += final_final2
 
-    return value1
+    return valueEdge
 
 
 

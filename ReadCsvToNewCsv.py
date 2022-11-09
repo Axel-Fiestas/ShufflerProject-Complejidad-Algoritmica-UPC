@@ -1,11 +1,6 @@
 import csv
 from Classes.classes import *
 
-#Track Name = row[1]
-#Artist Name= row[3]
-#Popularity= row[15]
-#Genres Artist=row[18]
-
 playlist_tracks=[]
 
 def getSongs():
