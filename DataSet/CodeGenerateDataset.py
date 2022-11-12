@@ -32,6 +32,7 @@ def get_list_songs(tracks_ids):
         name_track = song["track"]["name"]
         artist_track = song["track"]["artists"][0]["name"]
         uri_track = song["track"]["uri"]
+        album_track=song["track"]["album"]["name"]
         #PARA SABER EL GENERO
         result=sp.search(artist_track)
         track=result['tracks']['items'][0]
@@ -45,7 +46,7 @@ def get_list_songs(tracks_ids):
         tempo=round(features["tempo"])
         popularity=song["track"]["popularity"]
         urlImage = song["track"]["album"]["images"][2]["url"]
-        lista = [name_track, artist_track, uri_track,popularity,tempo,genre,urlImage]
+        lista = [name_track, artist_track, uri_track,popularity,tempo,genre,urlImage,album_track]
         list_listas.append(lista)
         #print(json.dumps(song,indent=2))
 
@@ -55,7 +56,7 @@ def get_list_songs(tracks_ids):
 track_list  = get_playlist_tracks()
 list_songs  = get_list_songs(track_list)
 
-headers=["name_track","artist_track","uri_track","popularity","tempo","genres","urlImage"]
+headers=["name_track","artist_track","uri_track","popularity","tempo","genres","urlImage","album"]
 
 
 #print(len(list_songs))

@@ -2,6 +2,7 @@
 import tkinter
 from tkinter import ttk
 from PIL import Image,ImageTk
+import customtkinter
 from Functions.FunctionsGUI import *
 from ReadCsvToNewCsv import *
 import webbrowser
@@ -30,7 +31,7 @@ my_label.pack(pady=10)
 data_list=[]
 for track in playlist_tracks:
 
-    lista=[track.name,track.artist,track.uri_track]
+    lista=[track.name,track.artist,track.uri_track,track.album]
     data_list.append(lista)
 
 
@@ -68,20 +69,25 @@ style.configure("Treeview",
 style.map("Treeview",background=[("selected","#111111")])
 
 
-my_tree["columns"]=("Name","Artist","url")
+my_tree["columns"]=("Name","Artist","url","Album")
 
 #Formate our columns
 my_tree.column("#0",width=80)
 my_tree.column("Name",anchor=W,width=500)
 my_tree.column("Artist",anchor=CENTER,width=500)
-my_tree.column("url",anchor=W,width=500)
+my_tree.column("url",width=0)
+my_tree.column("Album",anchor=W,width=500)
 
 
 #Create Headings
 my_tree.heading("#0",text="",anchor=W)
 my_tree.heading("Name",text="Song",anchor=W)
 my_tree.heading("Artist",text="Artist",anchor=CENTER)
-my_tree.heading("url",text="Spotify Url",anchor=W)
+my_tree.heading("url",text="",anchor=W)
+my_tree.heading("Album",text="Album",anchor=W)
+
+
+my_tree["displaycolumns"]=("Name","Artist","Album")
 
 def selected_one():
     selected=my_tree.focus()
@@ -111,7 +117,7 @@ for record in data_list:
     #photo = ImageTk.PhotoImage(image)
     lista.append(new_photo)
 
-    my_tree.insert(parent='', index='end', image=lista[count],iid=count, text="", values=(record[0], record[1], record[2]))
+    my_tree.insert(parent='', index='end', image=lista[count],iid=count, text="", values=(record[0], record[1], record[2],record[3]))
     count+=1
     i+=1
 
@@ -119,15 +125,22 @@ for record in data_list:
 ###LISTEN SPOTIFY BUTTON
 #FRAME BUTTONS
 
+
+
 principalButtonsFrame=Frame(root,bg="#3B9E8B")
 principalButtonsFrame.pack(pady=5)
 
 
-printRecord=Button(principalButtonsFrame,text="Select Song",command=selected_one)
-printRecord.grid(row = 0, column = 0,padx= 10)
 
-ListenRecord=Button(principalButtonsFrame,text="Listen Record",command=open_song_in_spotify)
-ListenRecord.grid(row=0,column=1)
+choose_image=ImageTk.PhotoImage(Image.open("images/music_choose.png").resize((20,20),Image.ANTIALIAS))
+button_choose=customtkinter.CTkButton(master=principalButtonsFrame,command=selected_one,image=choose_image,text="Choose Song!",width=100,height=40,compound="left",hover_color="green")
+button_choose.grid(row = 0, column = 0)
+
+
+spotify_image=ImageTk.PhotoImage(Image.open("images/spotify_logo.png").resize((20,20),Image.ANTIALIAS))
+button_1=customtkinter.CTkButton(master=principalButtonsFrame,command=open_song_in_spotify,image=spotify_image,text="Listen in Spotify",width=100,height=40,compound="left",hover_color="green")
+button_1.grid(row = 0, column = 1,padx= 10)
+
 
 root.mainloop()
 
