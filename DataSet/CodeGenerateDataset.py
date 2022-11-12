@@ -38,22 +38,24 @@ def get_list_songs(tracks_ids):
         artist = sp.artist(track["artists"][0]["external_urls"]["spotify"])
         genre=str(artist["genres"])
         genre=re.sub("\[|\'|\]","",genre)
-#https://open.spotify.com/playlist/3rmuoOAoR1d57FkIYIr2VP?si=700063bb53f549fd
+        #https://open.spotify.com/playlist/2JWzGt1rH97a4fyRqez8ZY?si=f2b2557c758845f1
         #AQUI TERMINA
         #OBTENCION DE LOS DATOS DEL TEMPO Y POPULARIDAD
         features = sp.audio_features(uri_track)[0]
         tempo=round(features["tempo"])
         popularity=song["track"]["popularity"]
-        lista = [name_track, artist_track, uri_track,popularity,tempo,genre]
+        urlImage = song["track"]["album"]["images"][2]["url"]
+        lista = [name_track, artist_track, uri_track,popularity,tempo,genre,urlImage]
         list_listas.append(lista)
         #print(json.dumps(song,indent=2))
+
     return list_listas
 
 
 track_list  = get_playlist_tracks()
 list_songs  = get_list_songs(track_list)
 
-headers=["name_track","artist_track","uri_track","popularity","tempo","genres"]
+headers=["name_track","artist_track","uri_track","popularity","tempo","genres","urlImage"]
 
 
 #print(len(list_songs))

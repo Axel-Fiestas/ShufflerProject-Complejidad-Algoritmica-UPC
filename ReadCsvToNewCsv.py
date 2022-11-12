@@ -15,7 +15,7 @@ def getSongs():
             else:
                 #print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
                 #name, artist,popularity,tempo,genres
-                s=Song(row[0],row[1],row[3],row[4],list(row[5].split(",")))
+                s=Song(row[0],row[1],row[2],row[3],row[4],list(row[5].split(",")),row[5])
                 playlist_tracks.append(s)
                 line_count += 1
         print(f'Processed {line_count} lines.')
