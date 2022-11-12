@@ -1,14 +1,13 @@
+import networkx as nx
+import matplotlib.pyplot as plt
 from tkinter import *
 from ReadCsvToNewCsv import *
 from Functions.Function import *
 from PIL import Image, ImageTk
-import networkx as nx
-import matplotlib.pyplot as plt
+from tkinter import ttk
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
-
-
 
 def showSongs(root, img_boton, printNameSong):
     botons = []
@@ -18,23 +17,13 @@ def showSongs(root, img_boton, printNameSong):
         songName = playlist_tracks[i].name
         myLabel = Label(root, text=songName)
 
-        # botonSeleccionador=Button(root,image=img_boton,command= lambda : printNameSong(myLabel.cget("text")))
         myLabel.grid(row=rowIterador, column=0)
-
         botons.append(Button(root, image=img_boton, padx=0, pady=0, text=songName,
                              command=lambda c=i: printNameSong(botons[c].cget("text"))))
         botons[i].grid(row=rowIterador, column=1)  # this packs the buttons
 
         rowIterador += 1
 
-        # boton = Button(root,image=img_boton, padx=0, pady=0, command=lambda: actualizaBoton(estaSeleccionado.get()))
-        # boton.grid(row=rowIterador,column=1)
-
-        # if not isSelected:
-        #    boton.configure(image=img_boton)
-        # else:
-        #    boton.configure(image=img_boton_check, state=DISABLED)
-        # botonSeleccionador.grid(row=rowIterador,column=1)
 
 
 def extracSong(song, playlist_tracks):
