@@ -17,9 +17,35 @@ root.configure(bg='#3B9E8B')
 playlist_tracks = getSongs()
 p1 = PhotoImage(file='images/music_logo.png')
 root.iconphoto(False, p1)
+root.state('zoomed')
 
 
 #IMPORTANT-FUNCTIONS-------------------------------------------------------
+def getOnlySong(root,song,data_list):
+    i=1
+    #songImage=[]
+    for record in data_list:
+        if(song==record[0]):
+
+            my_pic = Image.open("images/Logo.png")
+            resized = my_pic.resize((100, 100))
+            new_pic = ImageTk.PhotoImage(resized)
+            my_label = Label(root, image=new_pic)
+            my_label.pack(pady=10)
+
+            image=Image.open(f'AlbumsCover/album_number_{str(i)}.png')
+            resized = image.resize((40, 40))
+            new_photo = ImageTk.PhotoImage(resized)
+            photo_label = Label(root, image=new_photo)
+            photo_label.pack(pady=10)
+
+            break
+
+        i+=1
+
+
+
+
 list_all_songs=[]
 def getAllSongsForTView(my_tree,data_list):
 
@@ -30,6 +56,7 @@ def getAllSongsForTView(my_tree,data_list):
     count=0
     i=1
     for record in data_list:
+
         image = Image.open(f'AlbumsCover/album_number_{str(i)}.png')
         resized = image.resize((40, 40))
         new_photo = ImageTk.PhotoImage(resized)
@@ -43,6 +70,14 @@ def getAllSongsForTView(my_tree,data_list):
 
 lista_search=[]
 def search_by_name(my_tree,busqueda):
+
+
+    if(busqueda==""):
+        messageErrorSongNotFound()
+        return
+
+    hasSong=False
+
     global lista_search
     lista_search = []
     i=1
@@ -55,6 +90,7 @@ def search_by_name(my_tree,busqueda):
 
     for record in data_list:
         if busquedaMiniscula in record[0].lower():
+            hasSong=True
             image = Image.open(f'AlbumsCover/album_number_{str(i)}.png')
             resized = image.resize((40, 40))
             new_photo = ImageTk.PhotoImage(resized)
@@ -64,6 +100,10 @@ def search_by_name(my_tree,busqueda):
                            values=(record[0], record[1], record[2], record[3]))
             count += 1
         i += 1
+
+    if not hasSong:
+        messageErrorNothingSong()
+
 
 #TITLE IMAGE--------------------------------------------------------------
 my_pic=Image.open("images/Logo.png")
@@ -87,6 +127,7 @@ button_search=customtkinter.CTkButton(master=frame_search,command=lambda: search
 button_search.grid(row = 0, column = 1)
 
 frame_search.pack()
+#------------------------------------------------------------------------
 
 
 data_list = []
@@ -131,19 +172,134 @@ style.map("Treeview",background=[("selected","#111111")])
 getAllSongsForTView(my_tree,data_list)
 
 
+def showWindown(root):
+    root.deiconify()
+# Hide the window
+def hideWindown(root):
+    root.withdraw()
+
+def returnPrincipalWindown(root1,root2):
+    root2.destroy()
+    root1.deiconify()
+    root1.state('zoomed')
+
+def get_lenght_tree(tree,data_list):
+    i=0
+    for route in data_list:
+        i+=1
+
+    return i
+
+def openNewWindow(song):
+
+    playlist_quantity=int(askstring('Quantity', 'How many songs do you need?'))
+
+    hideWindown(root)
+
+
+    newWindow = Toplevel(root)
+    newWindow.title("Results!")
+    newWindow.geometry("%dx%d" % (width, height))
+    newWindow.iconphoto(False, p1)
+    newWindow.state('zoomed')
+    newWindow.configure(bg='#3B9E8B')
+
+    label_title = Label(newWindow, image=new_pic)
+    label_title.pack(pady=10)
+
+
+    frame_buttons=Frame(newWindow)
+    frame_buttons.configure(bg='#3B9E8B')
+
+    #getOnlySong(newWindow,song,data_list)
+    label_name_song=Label(newWindow,text=song,bg='#3B9E8B')
+    label_name_song.pack()
+
+
+    button_artist=customtkinter.CTkButton(master=frame_buttons,command=lambda:ButtonArtist(frame_buttons,song,my_tree_result,data_list),
+                                          text="Artist",width=100,height=40,hover_color="green")
+    button_artist.grid(row=0,column=0,padx=5)
+
+    button_seems=customtkinter.CTkButton(master=frame_buttons,command=lambda: ButtonSeems(frame_buttons,song,playlist_quantity,my_tree_result,data_list),
+                                         text="Seems",width=100,height=40,hover_color="green")
+    button_seems.grid(row=0,column=1,padx=5)
+
+    button_popularity=customtkinter.CTkButton(master=frame_buttons,command=lambda: ButtonPopularity(frame_buttons,song,playlist_quantity,my_tree_result,data_list),
+                                              text="Popularity",width=100,height=40,hover_color="green")
+    button_popularity.grid(row=0,column=2)
+
+
+    frame_buttons.pack()
+    #Label(newWindow,text=f"{playlist_quantity}").pack()
+
+    # Create TreeFrame
+    tree_frame_result = Frame(newWindow)
+    tree_frame_result.pack(pady=5)
+    # Create Treeview scrollbar
+    tree_scroll_result = Scrollbar(tree_frame_result)
+    tree_scroll_result.pack(side=RIGHT, fill=Y)
+    # Create Treeview
+    my_tree_result = ttk.Treeview(tree_frame_result, yscrollcommand=tree_scroll_result.set, height=16)
+    my_tree_result.pack()
+    # Configure Scrollbar
+    tree_scroll_result.config(command=my_tree_result.yview)
+    my_tree_result["columns"] = ("Name", "Artist", "url", "Album")
+    # Formate our columns
+    my_tree_result.column("#0", width=80)
+    my_tree_result.column("Name", anchor=W, width=500)
+    my_tree_result.column("Artist", anchor=CENTER, width=500)
+    my_tree_result.column("url", width=0)
+    my_tree_result.column("Album", anchor=W, width=500)
+    # Create Headings
+    my_tree_result.heading("#0", text="", anchor=W)
+    my_tree_result.heading("Name", text="Song", anchor=W)
+    my_tree_result.heading("Artist", text="Artist", anchor=CENTER)
+    my_tree_result.heading("url", text="", anchor=W)
+    my_tree_result.heading("Album", text="Album", anchor=W)
+    my_tree_result["displaycolumns"] = ("Name", "Artist", "Album")
+    # Add some style
+    style = ttk.Style()
+    style.theme_use("default")
+    style.configure("Treeview",
+                    background="#D3D3D3",
+                    foreground="black",
+                    rowheight=45,
+                    fieldbackground="#3B9E8B")
+    style.map("Treeview", background=[("selected", "#111111")])
+
+    #getAllSongsForTView(my_tree_result,data_list)
+    new_windows_frames=Frame(newWindow)
+    new_windows_frames.configure(bg='#3B9E8B')
+    button_return = customtkinter.CTkButton(master=new_windows_frames, command=lambda: returnPrincipalWindown(root,newWindow),
+                                        image=playlist_image, text="Return Playlist", width=100, height=40, compound="left",
+                                        hover_color="green")
+    button_return.grid(row=0,column=0,padx=5)
+    button_spotify=customtkinter.CTkButton(master=new_windows_frames, command=lambda: open_song_in_spotify(my_tree_result),
+                                            image=spotify_image, text="Listen in Spotify", width=100, height=40,
+                                            compound="left", hover_color="green")
+    button_spotify.grid(row=0,column=1)
+    new_windows_frames.pack()
 
 
 
 def selected_one():
     selected=my_tree.focus()
     temp=my_tree.item(selected,'values')
-    print(temp[2])
+    try:
+        name_song=temp[0]
+        openNewWindow(name_song)
 
-def open_song_in_spotify():
+    except:
+        messageNothingChoose()
+
+def open_song_in_spotify(my_tree):
     selected=my_tree.focus()
     temp=my_tree.item(selected,'values')
-    spotify_uri=temp[2][14:]
-    webbrowser.open(f'https://open.spotify.com/track/{spotify_uri}')
+    try:
+        spotify_uri = temp[2][14:]
+        webbrowser.open(f'https://open.spotify.com/track/{spotify_uri}')
+    except:
+        messageNothingChoose()
 
 
 
@@ -155,12 +311,16 @@ button_choose=customtkinter.CTkButton(master=principalButtonsFrame,command=lambd
 button_choose.grid(row = 0, column = 0)
 
 spotify_image=ImageTk.PhotoImage(Image.open("images/spotify_logo.png").resize((20,20)))
-button_listen=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: open_song_in_spotify(),image=spotify_image,text="Listen in Spotify",width=100,height=40,compound="left",hover_color="green")
+button_listen=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: open_song_in_spotify(my_tree),image=spotify_image,text="Listen in Spotify",width=100,height=40,compound="left",hover_color="green")
 button_listen.grid(row = 0, column = 1,padx= 10)
 
 playlist_image=ImageTk.PhotoImage(Image.open("images/playlist.png").resize((20,20)))
 button_restart=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: getAllSongsForTView(my_tree,data_list),image=playlist_image,text="Restart Playlist",width=100,height=40,compound="left",hover_color="green")
 button_restart.grid(row = 0, column = 2)
+
+
+#button_xd=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: openNewWindow(),image=playlist_image,text="OPEN",width=100,height=40,compound="left",hover_color="green")
+#button_xd.grid(row = 0, column = 3)
 
 
 root.mainloop()

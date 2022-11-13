@@ -9,6 +9,11 @@ from tkinter.simpledialog import askstring
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
 
+
+
+
+
+
 def showSongs(root, img_boton, printNameSong):
     botons = []
     rowIterador = 2
@@ -33,8 +38,13 @@ def extracSong(song, playlist_tracks):
 
 
 def messageErrorSongNotFound():
-    messagebox.showerror("Playfind", "La cancion ingresada no es valida")
+    messagebox.showerror("Shuffler", "La cancion ingresada no es valida")
 
+def messageErrorNothingSong():
+    messagebox.showwarning("Shufflger", "No se ha encontrado ninguna cancion que contenga los caracteres")
+
+def messageNothingChoose():
+    messagebox.showerror("Shuffler", "No has selccionado ninguna cancion")
 
 def pressButonCheck(song):
     if (checkSong(song, playlist_tracks)):
@@ -42,6 +52,8 @@ def pressButonCheck(song):
     else:
         messageErrorSongNotFound()
         return False
+
+
 
 
 def showListOfSongs(root,listOfSongs):
@@ -55,6 +67,8 @@ def showListOfSongs(root,listOfSongs):
     scrollbar.config(command=test.yview)
     scrollbar.grid(row=0, column=2, sticky='ns')
 
+
+
 def showListOfSelectedSongs(root, listOfSongs):
     scrollbar = Scrollbar(root, orient="vertical")
     test = Listbox(root, width=20, height=5, font=("Helvetica", 10))
@@ -67,9 +81,31 @@ def showListOfSelectedSongs(root, listOfSongs):
     scrollbar.grid(row=7, column=1, sticky='ns')
 
 
-def ButtonArtist(root, songName):
+lista_images_artist=[]
+def tableArtist(my_tree,song,data_list):
+
+    global lista_images_artist
+    lista_images_artist=[]
+    i=1
+    count=0
+    for item in my_tree.get_children():
+        my_tree.delete(item)
+    for record in data_list:
+        if song.artist==record[1]:
+            image = Image.open(f'AlbumsCover/album_number_{str(i)}.png')
+            resized = image.resize((40, 40))
+            new_photo = ImageTk.PhotoImage(resized)
+            # photo = ImageTk.PhotoImage(image)
+            lista_images_artist.append(new_photo)
+            my_tree.insert(parent='', index='end', image=lista_images_artist[count], iid=count, text="",
+                           values=(record[0], record[1], record[2], record[3]))
+            count += 1
+        i += 1
+
+def ButtonArtist(root, songName,my_tree,data_list):
     grafo = nx.Graph()  # Creamos el grafo
     song = extracSong(songName, playlist_tracks)
+    tableArtist(my_tree,song,data_list)
     generateNodesCaseByArtist(grafo, song, playlist_tracks)  # Generamos los nodos de canciones
     # Se emplearán los Conjuntos disjuntos , para este caso
     listaId = []  # Lista de Ids
@@ -96,18 +132,46 @@ def ButtonArtist(root, songName):
     # AQUI SE IMPRIME
     songs_of_group = list(grafo.adj[song.artist])
     # print(f"Songs Of artist ''{song.artist}'' in the playlist are: ")
-    showListOfSelectedSongs(root, songs_of_group)
+
+
+
+    #showListOfSelectedSongs(root, songs_of_group)
     nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
     plt.show()
 
 
+lista_images_seems = []
+def tableSeems(my_tree, data_list,songs_of_seems):
+    global lista_images_seems
+    lista_images_seems = []
 
-def ButtonSeems(root, songName):
+    count = 0
+
+    for item in my_tree.get_children():
+        my_tree.delete(item)
+
+    for track in songs_of_seems:
+        i = 1
+
+        for record in data_list:
+            if track == record[0]:
+                image = Image.open(f'AlbumsCover/album_number_{str(i)}.png')
+                resized = image.resize((40, 40))
+                new_photo = ImageTk.PhotoImage(resized)
+                # photo = ImageTk.PhotoImage(image)
+                lista_images_seems.append(new_photo)
+                my_tree.insert(parent='', index='end', image=lista_images_seems[count], iid=count, text="",
+                               values=(record[0], record[1], record[2], record[3]))
+                count += 1
+                break
+
+            i += 1
+
+def ButtonSeems(root, songName,numberOfPlaylist,my_tree,data_list):
 
     grafo = nx.Graph()  # Creamos el grafo
     song = extracSong(songName, playlist_tracks)  # Extraemos la cancion
     grafo.add_node(song.name)  # Añadimos el nodo de la cancion
-    numberOfPlaylist = int(askstring('Quantity', 'How many songs do you need?'))
     # showinfo('Hello!', 'Hi, {}'.format(name))
     generateNodesCaseBySeems(grafo, song, playlist_tracks, numberOfPlaylist)
     # Realizamos y mostramos el grafo de las canciones con su respectiva similitud
@@ -127,17 +191,47 @@ def ButtonSeems(root, songName):
     plt.axis("off")
     plt.tight_layout()
     songs_of_seems = list(grafo.adj[song.name])
-    showListOfSelectedSongs(root, songs_of_seems)
+
+    tableSeems(my_tree,data_list,songs_of_seems)
+
     plt.show()
 
+lista_images_popularity=[]
+def tablePopularity(my_tree, data_list,songs_of_popularity):
+    global lista_images_popularity
+    lista_images_popularity=[]
 
-def ButtonPopularity(root, songName):
+    count = 0
+
+    for item in my_tree.get_children():
+        my_tree.delete(item)
+
+    for track in songs_of_popularity:
+        i = 1
+
+        for record in data_list:
+            if track == record[0]:
+                image = Image.open(f'AlbumsCover/album_number_{str(i)}.png')
+                resized = image.resize((40, 40))
+                new_photo = ImageTk.PhotoImage(resized)
+                # photo = ImageTk.PhotoImage(image)
+                lista_images_popularity.append(new_photo)
+                my_tree.insert(parent='', index='end', image=lista_images_popularity[count], iid=count, text="",
+                               values=(record[0], record[1], record[2], record[3]))
+                count += 1
+                break
+
+            i += 1
+
+def ButtonPopularity(root, songName,numberOfPlaylist,my_tree,data_list):
     grafo = nx.Graph()  # Creamos el grafo
     song = extracSong(songName, playlist_tracks)  # Extraemos la cancion
-    generateNodesCaseByPopularity(grafo, song, playlist_tracks)
-    conectionByPopularity(playlist_tracks, grafo, song)
+    generateNodesCaseByPopularity(grafo, song, playlist_tracks,numberOfPlaylist)
+    conectionByPopularity(playlist_tracks, grafo, song,numberOfPlaylist)
     songs_of_group = list(grafo.adj[song.name])
-    showListOfSelectedSongs(root, songs_of_group)
+
+    tableSeems(my_tree,data_list,songs_of_group)
+
     nx.draw(grafo, pos=nx.spring_layout(grafo), with_labels=True)
     plt.show()
 

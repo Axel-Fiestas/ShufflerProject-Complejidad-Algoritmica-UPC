@@ -40,16 +40,22 @@ def generateNodesCaseBySeems(grafo,songSelected,playlist_tracks,numberOfPlaylist
                 tamanioDelGrafo+=1
 
 
-def generateNodesCaseByPopularity(grafo,songSelected,playlist_tracks):
+def generateNodesCaseByPopularity(grafo,songSelected,playlist_tracks,numberOfPlaylist):
+    tamanioDelGrafo = 0
     for track in playlist_tracks:
+        if(tamanioDelGrafo>numberOfPlaylist):break
         if(getPopularityValue(track.popularity)==getPopularityValue(songSelected.popularity)):
             grafo.add_node(track.name)
+            tamanioDelGrafo+=1
 
-def conectionByPopularity(playlist_tracks,grafo,songSelected):
+def conectionByPopularity(playlist_tracks,grafo,songSelected,numberOfPlaylist):
+    tamanioDelGrafo=0
     for i in range(len(playlist_tracks)):
+        if(tamanioDelGrafo>numberOfPlaylist):break
         if(songSelected.name!=playlist_tracks[i].name):
             if(getPopularityValue(songSelected.popularity)==getPopularityValue(playlist_tracks[i].popularity)):
                 grafo.add_edge(songSelected.name,playlist_tracks[i].name)
+                tamanioDelGrafo+=1
 
 def value(song1,song2):
 
