@@ -195,15 +195,15 @@ def openNewWindow(song):
 
 
     button_artist=customtkinter.CTkButton(master=frame_buttons,command=lambda:ButtonArtist(frame_buttons,song,my_tree_result,data_list),
-                                          text="Artist",width=100,height=40,hover_color="green")
+                                          text="Filter By Artist",width=100,height=40,hover_color="green")
     button_artist.grid(row=0,column=0,padx=5)
 
     button_seems=customtkinter.CTkButton(master=frame_buttons,command=lambda: ButtonSeems(frame_buttons,song,playlist_quantity,my_tree_result,data_list),
-                                         text="Seems",width=100,height=40,hover_color="green")
+                                         text="Filter By Seems",width=100,height=40,hover_color="green")
     button_seems.grid(row=0,column=1,padx=5)
 
     button_popularity=customtkinter.CTkButton(master=frame_buttons,command=lambda: ButtonPopularity(frame_buttons,song,playlist_quantity,my_tree_result,data_list),
-                                              text="Popularity",width=100,height=40,hover_color="green")
+                                              text="Filter By Popularity",width=100,height=40,hover_color="green")
     button_popularity.grid(row=0,column=2)
     frame_buttons.pack()
 
