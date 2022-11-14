@@ -19,6 +19,11 @@ p1 = PhotoImage(file='images/music_logo.png')
 root.iconphoto(False, p1)
 root.state('zoomed')
 
+#GLOBAL VARIABLES----------------------------------------------------------
+list_all_songs=[]
+lista_search=[]
+
+
 
 #IMPORTANT-FUNCTIONS-------------------------------------------------------
 def getOnlySong(root,song,data_list):
@@ -42,11 +47,6 @@ def getOnlySong(root,song,data_list):
             break
 
         i+=1
-
-
-
-
-list_all_songs=[]
 def getAllSongsForTView(my_tree,data_list):
 
     for item in my_tree.get_children():
@@ -67,11 +67,7 @@ def getAllSongsForTView(my_tree,data_list):
                        values=(record[0], record[1], record[2], record[3]))
         count += 1
         i += 1
-
-lista_search=[]
 def search_by_name(my_tree,busqueda):
-
-
     if(busqueda==""):
         messageErrorSongNotFound()
         return
@@ -103,8 +99,15 @@ def search_by_name(my_tree,busqueda):
 
     if not hasSong:
         messageErrorNothingSong()
-
-
+def showWindown(root):
+    root.deiconify()
+# Hide the window
+def hideWindown(root):
+    root.withdraw()
+def returnPrincipalWindown(root1,root2):
+    root2.destroy()
+    root1.deiconify()
+    root1.state('zoomed')
 #TITLE IMAGE--------------------------------------------------------------
 my_pic=Image.open("images/Logo.png")
 resized=my_pic.resize((100,100))
@@ -128,8 +131,6 @@ button_search.grid(row = 0, column = 1)
 
 frame_search.pack()
 #------------------------------------------------------------------------
-
-
 data_list = []
 for track in playlist_tracks:
     lista = [track.name, track.artist, track.uri_track, track.album]
@@ -171,32 +172,10 @@ style.configure("Treeview",
 style.map("Treeview",background=[("selected","#111111")])
 getAllSongsForTView(my_tree,data_list)
 
-
-def showWindown(root):
-    root.deiconify()
-# Hide the window
-def hideWindown(root):
-    root.withdraw()
-
-def returnPrincipalWindown(root1,root2):
-    root2.destroy()
-    root1.deiconify()
-    root1.state('zoomed')
-
-def get_lenght_tree(tree,data_list):
-    i=0
-    for route in data_list:
-        i+=1
-
-    return i
-
 def openNewWindow(song):
 
     playlist_quantity=int(askstring('Quantity', 'How many songs do you need?'))
-
     hideWindown(root)
-
-
     newWindow = Toplevel(root)
     newWindow.title("Results!")
     newWindow.geometry("%dx%d" % (width, height))
@@ -206,7 +185,6 @@ def openNewWindow(song):
 
     label_title = Label(newWindow, image=new_pic)
     label_title.pack(pady=10)
-
 
     frame_buttons=Frame(newWindow)
     frame_buttons.configure(bg='#3B9E8B')
@@ -227,10 +205,7 @@ def openNewWindow(song):
     button_popularity=customtkinter.CTkButton(master=frame_buttons,command=lambda: ButtonPopularity(frame_buttons,song,playlist_quantity,my_tree_result,data_list),
                                               text="Popularity",width=100,height=40,hover_color="green")
     button_popularity.grid(row=0,column=2)
-
-
     frame_buttons.pack()
-    #Label(newWindow,text=f"{playlist_quantity}").pack()
 
     # Create TreeFrame
     tree_frame_result = Frame(newWindow)
@@ -288,7 +263,6 @@ def selected_one():
     try:
         name_song=temp[0]
         openNewWindow(name_song)
-
     except:
         messageNothingChoose()
 
@@ -300,8 +274,6 @@ def open_song_in_spotify(my_tree):
         webbrowser.open(f'https://open.spotify.com/track/{spotify_uri}')
     except:
         messageNothingChoose()
-
-
 
 principalButtonsFrame=Frame(root,bg="#3B9E8B")
 principalButtonsFrame.pack(pady=5)
@@ -318,71 +290,6 @@ playlist_image=ImageTk.PhotoImage(Image.open("images/playlist.png").resize((20,2
 button_restart=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: getAllSongsForTView(my_tree,data_list),image=playlist_image,text="Restart Playlist",width=100,height=40,compound="left",hover_color="green")
 button_restart.grid(row = 0, column = 2)
 
-
-#button_xd=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: openNewWindow(),image=playlist_image,text="OPEN",width=100,height=40,compound="left",hover_color="green")
-#button_xd.grid(row = 0, column = 3)
-
-
 root.mainloop()
-
-
-
-
-
-####ANTIGUO PROGRAMA
-##SONGS FRAME
-#songsFrame=LabelFrame(root,text="Songs of Playlist")
-#songsFrame.grid(row=0,column=0)
-#showListOfSongs(songsFrame,playlist_tracks)
-#
-##OPTIONS FRAME
-#
-#optionsFrame=LabelFrame(root,text="Options")
-#optionsFrame.grid(row=0,column=1)
-#
-#titleApp=tkinter.Label(optionsFrame,text="Shuffler").grid(row=0,column=0)
-#secondaryTitle=tkinter.Label(optionsFrame,text="Write a song of this playlist!",bg="yellow").grid(row=1,column=0)
-#
-#e=Entry(optionsFrame,width=50,bg="green",fg="white",borderwidth=3)
-#e.grid(row=2,column=0)
-#e.get()
-#
-##Check the song when you are pressing the botton
-#
-#def pressButtonArtist(root,song):
-#    if pressButonCheck(song):
-#        buttonArtist['state']=DISABLED
-#        buttonPopularity['state'] = NORMAL
-#        buttonSeems['state']=NORMAL
-#        ButtonArtist(root, song)
-#
-#
-#def pressButtonSeems(root,song):
-#    if pressButonCheck(song):
-#        buttonSeems['state']=DISABLED
-#        buttonArtist['state']=NORMAL
-#        buttonPopularity['state']=NORMAL
-#        ButtonSeems(root,song)
-#
-#def pressButtonPopularity(root,song):
-#    if pressButonCheck(song):
-#        buttonPopularity['state'] = DISABLED
-#        buttonSeems["state"]=NORMAL
-#        buttonArtist["state"]=NORMAL
-#        ButtonPopularity(root,song)
-#
-#
-#buttonArtist=Button(optionsFrame,text="Filter By Group",command=lambda:pressButtonArtist(optionsFrame,e.get()))
-#buttonArtist.grid(row=3,column=0)
-#buttonSeems=Button(optionsFrame,text="Filter By Seems", command=lambda :pressButtonSeems(optionsFrame,e.get()))
-#buttonSeems.grid(row=4,column=0)
-#buttonPopularity=Button(optionsFrame,text="Filter By Popularity",command=lambda: pressButtonPopularity(optionsFrame,e.get()))
-#buttonPopularity.grid(row=5,column=0)
-#
-#
-#
-#
-#
-#root.mainloop()
 
 
