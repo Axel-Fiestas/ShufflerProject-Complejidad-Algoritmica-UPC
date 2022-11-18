@@ -250,7 +250,7 @@ def openNewWindow(song):
                                         hover_color="green")
     button_return.grid(row=0,column=0,padx=5)
     button_spotify=customtkinter.CTkButton(master=new_windows_frames, command=lambda: open_song_in_spotify(my_tree_result),
-                                            image=spotify_image, text="Listen in Spotify", width=100, height=40,
+                                            image=spotify_image, text="Listen on Spotify", width=100, height=40,
                                             compound="left", hover_color="green")
     button_spotify.grid(row=0,column=1)
     new_windows_frames.pack()
