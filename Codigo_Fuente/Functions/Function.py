@@ -1,4 +1,4 @@
-from Functions.ConvertFunctions import *
+from Codigo_Fuente.Functions.ConvertFunctions import *
 
 def equalArtist(songSelected,songCompare):
     if(songSelected.artist==songCompare.artist):

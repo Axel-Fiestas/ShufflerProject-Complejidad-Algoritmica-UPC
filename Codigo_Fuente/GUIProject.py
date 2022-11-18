@@ -1,10 +1,9 @@
 #LIBRARIES
 import tkinter
 from tkinter import ttk
-from PIL import Image,ImageTk
 import customtkinter
-from Functions.FunctionsGUI import *
 from ReadCsvToNewCsv import *
+from Functions.FunctionsGUI import *
 import webbrowser
 
 #PROGRAM--------------------------------------------------------------------
@@ -125,7 +124,7 @@ entry = customtkinter.CTkEntry(master=frame_search,
                                corner_radius=10)
 entry.grid(row=0,column=0,padx= 10)
 
-button_search_image=ImageTk.PhotoImage(Image.open("images/lupa.png").resize((10,10)))
+button_search_image=ImageTk.PhotoImage(Image.open("images/lupa.png").resize((10, 10)))
 button_search=customtkinter.CTkButton(master=frame_search,command=lambda: search_by_name(my_tree,entry.get()),image=button_search_image,text="",width=50,height=20,compound="left",hover_color="green")
 button_search.grid(row = 0, column = 1)
 
@@ -278,15 +277,15 @@ def open_song_in_spotify(my_tree):
 principalButtonsFrame=Frame(root,bg="#3B9E8B")
 principalButtonsFrame.pack(pady=5)
 
-choose_image=ImageTk.PhotoImage(Image.open("images/music_choose.png").resize((20,20)))
+choose_image=ImageTk.PhotoImage(Image.open("images/music_choose.png").resize((20, 20)))
 button_choose=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: selected_one(),image=choose_image,text="Choose Song!",width=100,height=40,compound="left",hover_color="green")
 button_choose.grid(row = 0, column = 0)
 
-spotify_image=ImageTk.PhotoImage(Image.open("images/spotify_logo.png").resize((20,20)))
+spotify_image=ImageTk.PhotoImage(Image.open("images/spotify_logo.png").resize((20, 20)))
 button_listen=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: open_song_in_spotify(my_tree),image=spotify_image,text="Listen in Spotify",width=100,height=40,compound="left",hover_color="green")
 button_listen.grid(row = 0, column = 1,padx= 10)
 
-playlist_image=ImageTk.PhotoImage(Image.open("images/playlist.png").resize((20,20)))
+playlist_image=ImageTk.PhotoImage(Image.open("images/playlist.png").resize((20, 20)))
 button_restart=customtkinter.CTkButton(master=principalButtonsFrame,command=lambda: getAllSongsForTView(my_tree,data_list),image=playlist_image,text="Restart Playlist",width=100,height=40,compound="left",hover_color="green")
 button_restart.grid(row = 0, column = 2)
 

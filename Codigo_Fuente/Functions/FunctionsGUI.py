@@ -1,17 +1,13 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 from tkinter import *
-from ReadCsvToNewCsv import *
-from Functions.Function import *
+from Codigo_Fuente.ReadCsvToNewCsv import *
+from Codigo_Fuente.Functions.Function import *
 from PIL import Image, ImageTk
 from tkinter import ttk
 from tkinter.simpledialog import askstring
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
-
-
-
-
 
 
 def showSongs(root, img_boton, printNameSong):
